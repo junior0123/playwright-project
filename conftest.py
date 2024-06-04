@@ -1,18 +1,53 @@
 # conftest.py
+import os
+
 import pytest
 from playwright.sync_api import sync_playwright
+from dotenv import load_dotenv
+from pytest_bdd import given, then, when
+
+from features.pages.login_page import LoginPage
+
+load_dotenv()
+
 
 @pytest.fixture(scope="session")
 def playwright_context():
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        yield context
+        browser = playwright.chromium.launch(args=['--start-maximized'], headless=False, slow_mo=1000)
+        context = browser.new_context(no_viewport=True)  #browser window
+        yield context #proporciona el contexto para otros test
         context.close()
         browser.close()
 
+
 @pytest.fixture(scope="function")
 def page(playwright_context):
-    page = playwright_context.new_page()
-    yield page
+    page = playwright_context.new_page() #tab window
+    yield page #proporciona la pagina a las funciones que lo necesiten
     page.close()
+
+@pytest.fixture(scope="function")
+def login_page(page):
+    return LoginPage(page)
+
+
+@given('the user is on the login page')
+def navigate_to_login_page(login_page):
+    login_page.navigate()
+
+
+@when('the user logs in with valid credentials')
+def login_with_valid_credentials(login_page):
+    username = os.getenv('APP_USERNAME')
+    password = os.getenv('APP_PASSWORD')
+    login_page.login(username, password)
+
+
+@then('the user should be redirected to the dashboard')
+def verify_dashboard_redirect(login_page):
+    login_page.verification_login_successfully()
+
+@then('the user logout')
+def logout_from_the_site(login_page):
+    login_page.log_out()
