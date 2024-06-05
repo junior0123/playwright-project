@@ -12,5 +12,6 @@ Feature: Search job
     And the user selects the "Ultimas 24 horas" date
     And the user selects single application filter
     Then the search results should be displayed
+    And the user navigates through all the results
     And the user logout
 
