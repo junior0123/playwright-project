@@ -17,9 +17,10 @@ def playwright_context():
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(args=['--start-maximized'], headless=False)
             context = browser.new_context(no_viewport=True)  #browser window
+            context.clear_cookies()
             yield context #proporciona el contexto para otros test
-            #context.close()
-            #browser.close()
+            context.close()
+            browser.close()
     except Exception as e:
         print(f"Error: {e}")
         # Mantén el navegador abierto para inspección manual
@@ -30,7 +31,7 @@ def page(playwright_context):
     try:
         page = playwright_context.new_page() #tab window
         yield page #proporciona la pagina a las funciones que lo necesiten
-        #page.close()
+        page.close()
     except Exception as e:
         print(f"Error: {e}")
         # Mantén el navegador abierto para inspección manual
