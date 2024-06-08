@@ -15,7 +15,7 @@ load_dotenv()
 def playwright_context():
     try:
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(args=['--start-maximized'], headless=False)
+            browser = playwright.chromium.launch(args=['--start-maximized'], headless=False, slow_mo=250)
             context = browser.new_context(no_viewport=True)  #browser window
             context.clear_cookies()
             yield context #proporciona el contexto para otros test
