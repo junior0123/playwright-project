@@ -1,11 +1,12 @@
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 from playwright.sync_api import expect
-from features.pages.home_page import HomePage
+
 from features.pages.job_information_page import JobInformationPage
 from features.pages.search_page import SearchPage
 from features.pages.login_page import LoginPage
 import os
+
 
 from utils.models import JobInformation
 
@@ -14,9 +15,7 @@ scenarios(os.path.join(os.path.dirname(__file__), '../search_job.feature'))
 def search_page(page):
     return SearchPage(page)
 
-@pytest.fixture(scope="function")
-def home_page(page):
-    return HomePage(page)
+
 
 @pytest.fixture(scope="function")
 def job_information_page(page):
@@ -34,17 +33,13 @@ def navigate_to_search_jobs(search_page):
 def search_for_job(search_page, job_title, location):
     search_page.search_jobs(job_title, location)
     
-@when(parsers.parse('the user selects the work mode "{mode}"'))
+@when(parsers.parse('the user selects the filter "{mode}"'))
 def select_work_mode(search_page, mode):
-    search_page.select_work_mode(mode)
+    search_page.select_filter(mode)
     #search_page.select_work_mode("Híbrido")
     #search_page.select_work_mode("Presencial")
 
-@when(parsers.parse('the user selects the "{date}" date'))
-def select_publication_date(search_page, date):  # Nombre más descriptivo
-    search_page.publication_date(date)
-    #search_page.publication_date("Mes pasado")
-    #search_page.publication_date("Semana pasada")
+
 
 @when('the user selects single application filter')
 def select_single_application(search_page):
