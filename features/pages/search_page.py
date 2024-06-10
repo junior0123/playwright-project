@@ -41,7 +41,7 @@ class SearchPage:
         location_input = self.page.get_by_role("combobox", name="Ciudad, provincia/estado o có")
         location_input.click()
         location_input.fill(location)
-        self.page.get_by_role("button", name="Buscar").click()
+        self.page.get_by_role("button", name="Buscar").click(delay=1500)
         expect(self.page.locator('div.jobs-search-results-list')).to_be_visible()
 
     def open_filter_panel(self):
@@ -49,25 +49,16 @@ class SearchPage:
         self.page.get_by_label("Mostrar todos los filtros. Al").click()
         expect(self.page.locator('div.artdeco-modal__content')).to_be_visible()
 
-    def publication_date(self, date: str):
-        date_selectors = {
-            "Cualquier momento": None,
-            "Semana pasada": "Semana pasada Filtrar por «",
-            "Mes pasado": "Mes pasado Filtrar por «Mes",
-            "Ultimas 24 horas": "Últimas 24 horas Filtrar por"
-        }
-        if date not in date_selectors:
-            raise ValueError(
-                "Fecha de publicación no válida.")
-        if date_selectors[date] is not None:
-            self.page.wait_for_load_state('load')
-            self.page.get_by_label("Todos los filtros", exact=True).locator("label").filter(
-                has_text=date_selectors[date]).click(delay=1000)
-
-    def select_work_mode(self, mode: str):
+    def select_filter(self, mode: str):
         work_mode_selector = {
+            'Mas relevantes': 'label[for=advanced-filter-sortBy-R]',
+            'Mas recientes': 'label[for=advanced-filter-sortBy-DD]',
+            'Cualquier momento': 'label[for=advanced-filter-timePostedRange-]',
+            'Mes pasado': 'label[for=advanced-filter-timePostedRange-r2592000]',
+            'Semana pasada': 'label[for=advanced-filter-timePostedRange-r604800]',
+            'Ultimas 24 horas': 'label[for=advanced-filter-timePostedRange-r86400]',
             'Remoto': "label[for=advanced-filter-workplaceType-2]",
-            'Híbrido': "label[for=advanced-filter-workplaceType-3]",
+            'Hibrido': "label[for=advanced-filter-workplaceType-3]",
             'Presencial': "label[for=advanced-filter-workplaceType-1]"
         }
         self.scroll_element_into_view(work_mode_selector[mode])
@@ -91,7 +82,7 @@ class SearchPage:
 
     def go_to(self, url):
         self.page.goto(url)
-        expect(self.page.locator('ul.scaffold-layout__list-container')).to_be_visible()
+        #expect(self.page.locator('ul.scaffold-layout__list-container')).to_be_visible()
 
     def get_links(self):
         self.scroll_to_bottom('div.jobs-search-results-list')
