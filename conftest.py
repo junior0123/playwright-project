@@ -1,6 +1,5 @@
 # conftest.py
 import os
-
 import pytest
 from playwright.sync_api import sync_playwright
 from dotenv import load_dotenv
@@ -22,6 +21,7 @@ def playwright_context():
             yield context  #proporciona el contexto para otros test
             context.close()
             browser.close()
+
     except Exception as e:
         print(f"Error: {e}")
 
@@ -34,14 +34,16 @@ def page(playwright_context):
         page.close()
     except Exception as e:
         print(f"Error: {e}")
+# @pytest.fixture(scope="session", autouse=True)
+# def run_after_tests():
+#     yield  # Espera hasta que todos los tests terminen
+#     main()
 
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_database():
     Base.metadata.create_all(bind=engine)
     yield
-    # Limpia la base de datos después de los tests
-    #Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture(scope="function")
