@@ -1,6 +1,6 @@
 import time
 from api.gemini_api import GeminiApi
-from models import JobInformation
+from .models import JobInformation
 from utils.database import SessionLocal
 from dotenv import load_dotenv
 
