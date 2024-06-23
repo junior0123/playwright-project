@@ -34,10 +34,6 @@ def page(playwright_context):
         page.close()
     except Exception as e:
         print(f"Error: {e}")
-# @pytest.fixture(scope="session", autouse=True)
-# def run_after_tests():
-#     yield  # Espera hasta que todos los tests terminen
-#     main()
 
 
 @pytest.fixture(scope='session', autouse=True)
