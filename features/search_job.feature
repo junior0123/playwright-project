@@ -8,7 +8,7 @@ Feature: Search job
     When the user go to the LinkedIn jobs search page
     And the user searches for a job title "QA" in "Bolivia"
     And the user opens the filter panel
-    #And the user selects the filter "Ultimas 24 horas"
+    And the user selects the filter "Ultimas 24 horas"
     And the user selects the filter "Remoto"
     #And the user selects single application filter
     Then the search results should be displayed
