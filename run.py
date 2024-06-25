@@ -11,16 +11,12 @@ def run_pytest():
 
 
 def run_analyze_data():
-    # Importa y ejecuta la función main de tu script AnalyzeData
-    from utils.analyze_data import main  # Reemplaza 'tu_script' con el nombre correcto del archivo que contiene la función main
+    from utils.analyze_data import main
     main()
 
 
 def main():
-    # Ejecuta pytest y espera a que termine
     run_pytest()
-
-    # Ejecuta AnalyzeData después de que pytest haya terminado
     run_analyze_data()
 
 
