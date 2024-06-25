@@ -23,7 +23,7 @@ class LoginPage:
                                     timeout=240000)
         self.page.wait_for_load_state('load')
         minimize_chat = self.page.locator('button.msg-overlay-bubble-header__control--new-convo-btn:last-child')
-        minimize_chat.click()
+        minimize_chat.click(delay=500)
 
     def log_out(self):
         button = self.page.locator('img.global-nav__me-photo')
