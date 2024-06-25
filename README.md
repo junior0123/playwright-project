@@ -151,6 +151,9 @@ pip install -q -U google-generativeai
 pip install psycopg2
 pip install tqdm 
    ```
+### ⚠️ Important: Execution with LinkedIn in Spanish ⚠️
+
+To ensure proper functionality of the application, it is crucial to run it with the LinkedIn interface set to Spanish. Some selectors rely on Spanish text for correct identification and operation.
 
 ## Running the Project 🚀
 
