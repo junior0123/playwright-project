@@ -3,7 +3,8 @@ from api.gemini_api import GeminiApi
 from .models import JobInformation
 from utils.database import SessionLocal
 from dotenv import load_dotenv
-
+import re
+from tqdm import tqdm
 # Cargar las variables de entorno
 load_dotenv()
 
@@ -25,7 +26,7 @@ class AnalyzeData:
         self.api = GeminiApi()
 
     def get_filtered_data(self):
-        return self.db_session.query(JobInformation).filter_by(restriction=False, compatible="unprocessed").all()
+        return self.db_session.query(JobInformation).filter_by(restriction=False, state="unprocessed").all()
 
     def analyze_job(self, job_title, job_description):
         prompt = f"""
@@ -55,23 +56,35 @@ class AnalyzeData:
 
         return self.api.generate_content(prompt)
 
+    def extract_percentage(self, text):
+        matches = re.findall(r'(\d+)%', text)
+        if matches:
+            return int(matches[-1])
+        else:
+            return None
+
 
 def main():
     db_session = SessionLocal()
     try:
         analyzer = AnalyzeData(db_session)
-
-        # Obtener los datos filtrados
         filtered_data = analyzer.get_filtered_data()
-        for job in filtered_data:
+        job_matches = []
+        for job in tqdm(filtered_data, desc="Processing"):
             job_description = job.description
             job_title = job.title
             match_result = analyzer.analyze_job(job_title, job_description)
-            print('---------------------------------***********************-------------------------------------------')
-            print()
-            print(f"Job Title: {job_title}, Match Result: {match_result} , url: {job.url}")
-            time.sleep(4)  # sleep 4 seconds, not 4000 milliseconds
-
+            percentage = analyzer.extract_percentage(match_result)
+            if percentage is not None:
+                job.match_percentage = percentage
+                job_matches.append((job_title, job.url, percentage))
+            job.ai_analysis = match_result
+            job.state = "processed"
+            db_session.commit()
+            time.sleep(1)
+        job_matches.sort(key=lambda x: x[2], reverse=True)
+        for title, url, percentage in job_matches:
+            print(f"Title: {title}, URL: {url}, Match Percentage: {percentage}%")
     finally:
         db_session.close()
 
