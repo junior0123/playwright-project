@@ -1,4 +1,4 @@
-# conftest.py
+
 import os
 import pytest
 from playwright.sync_api import sync_playwright
@@ -35,7 +35,7 @@ def page(playwright_context):
     except Exception as e:
         print(f"Error: {e}")
 
-
+#Common Steps
 @pytest.fixture(scope='session', autouse=True)
 def setup_database():
     Base.metadata.create_all(bind=engine)
