@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The LinkedIn Jobs Profile Matcher is a project designed to automate the search and matching of user profiles with job listings on LinkedIn. This program navigates through the user's search results, accesses each job listing, and performs a comparative analysis between the job requirements and the user's profile.
+The LinkedIn Jobs Profile Matcher is a project designed to automate the search and matching of user profiles with j``ob listings on LinkedIn. This program navigates through the user's search results, accesses each job listing, and performs a comparative analysis between the job requirements and the user's profile.
 
 Using various Python libraries, the integrated AI analyzes job descriptions, extracts relevant criteria such as required skills, experience levels, and location preferences. It then compares these criteria with the user's defined profile to assess the degree of alignment.
 
@@ -22,6 +22,14 @@ pip --version
 If you don't have Python installed, download it from [python.org](https://www.python.org/downloads/) and install it. Pip is usually installed automatically alongside Python.
 
 ## Setting Up the Virtual Environment
+
+1. **Clone the respository:**
+
+```sh
+git clone git@github.com:junior0123/playwright-project.git
+cd playwright-project
+```
+
 
 1. **Create a virtual environment:**
 
@@ -150,7 +158,7 @@ pip install psycopg2
 
 To run the project and start the automated job search with the integrated AI, follow these steps:
 
-1. **Run the main script:**
+2. **Run the main script:**
 
    ```bash
    python main.py
@@ -163,5 +171,27 @@ To run the project and start the automated job search with the integrated AI, fo
    The results of the comparison between the jobs found and the user profile will be displayed in the terminal. You can customize the output and format as per your specific requirements.
 
 ---
+## Troubleshooting
+If you encounter any issues, here are some tips that might help:
 
-This document provides a basic guide to get started with your "Playwright Job Search Assistant" project. Be sure to customize it according to the specific needs of your application and add additional details as necessary.
+- **Environment Activation Issues:** Ensure your virtual environment is activated before running any commands. On Windows, use `playwright-env\Scripts\activate`, and on macOS/Linux, use `source playwright-env/bin/activate`.
+- **Dependency Installation:** If you face issues with installing dependencies, try updating pip using `pip install --upgrade pip` and then reinstall the dependencies.
+- **PostgreSQL Connection:** Double-check your `.env` file for the correct database URL and credentials. Ensure PostgreSQL is running and accessible.
+- **LinkedIn Login Issues:** Verify that your LinkedIn credentials in the `.env` file are correct and that your LinkedIn account has not enabled two-factor authentication, as it might interfere with the automated login process.
+- **Playwright Setup:** Make sure to run `playwright install` to ensure all necessary browsers are installed for Playwright.
+- **Slowness or Timing Issues:** If the script is running too quickly and encountering errors, you can increase the `slowMo` value in the `conftest.py` file. This will slow down the execution and may help with stability.
+- **AI Errors:** Be aware that the integrated AI might sometimes produce errors. These could be due to unexpected job description formats or
+
+ - **API issues.** If you encounter frequent errors, review the AI integration code and ensure the API key and services are correctly configured.
+- **Database Inspection:** You can use PgAdmin or another PostgreSQL client to inspect the data stored in the `job_information` database. This can help in diagnosing data-related issues.
+- **Retrying Execution:** If you encounter transient errors, simply try running the project again. Sometimes, issues might resolve themselves upon subsequent executions.
+
+
+## About the Author
+
+This project was created by `Alvaro Sivila`, a dedicated QA Automation Engineer with expertise in various automation tools and frameworks. If you're interested in my work, feel free to check out my portfolio or follow me on LinkedIn:
+
+- **Portfolio:** [Portfolio](https://junior0123.github.io/QAPortfolio/)
+- **LinkedIn:** [Alvaro Sivila](https://www.linkedin.com/in/alvaro-sivila-ram%C3%ADrez-0a8537113/)
+
+I hope you enjoy using this project as much as I enjoyed creating it. It's a fantastic tool designed to make your job search easier and more efficient. I'm always open to connecting with like-minded professionals and exploring new opportunities. Let's connect and collaborate!
