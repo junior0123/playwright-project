@@ -149,6 +149,7 @@ pip install pytest-bdd
 pip install sqlalchemy
 pip install -q -U google-generativeai
 pip install psycopg2
+pip install tqdm 
    ```
 
 ## Running the Project 🚀
