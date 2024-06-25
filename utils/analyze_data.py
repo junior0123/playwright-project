@@ -5,19 +5,9 @@ from utils.database import SessionLocal
 from dotenv import load_dotenv
 import re
 from tqdm import tqdm
-# Cargar las variables de entorno
-load_dotenv()
+from config.settings import Settings
 
-user_information = dict(
-    role="QA Engineer - QA Automation - QA Manual - Java Backend Developer - Python Backend Developer",
-    technologies_used=["Java", "Python", "JavaScript", "Flutter", "Assembly", "Selenium", "Cypress", "Playwright",
-                       "Appium", "Postman", "SQL", "Git", "Github", "Jira", "Cucumber", "Gherkin", "Jenkins",
-                       "Pytest", "Junit", "TestNG"],
-    skills=["GUI Testing", "API Testing", "Mobile Testing", "Web Testing", "Testing methodologies", "Bug Life Cycle",
-            "Agile Methodologies"],
-    years_of_experience="1 - 2 ",
-    seniority="Trainee - Junior - Mid Level",
-    location="Remote - Bolivia")
+load_dotenv()
 
 
 class AnalyzeData:
@@ -29,6 +19,7 @@ class AnalyzeData:
         return self.db_session.query(JobInformation).filter_by(restriction=False, state="unprocessed").all()
 
     def analyze_job(self, job_title, job_description):
+        user_information = Settings.USER_INFORMATION
         prompt = f"""
                 Compare el perfil del usuario con la informacion del empleo.
 
@@ -81,10 +72,12 @@ def main():
             job.ai_analysis = match_result
             job.state = "processed"
             db_session.commit()
-            time.sleep(1)
+            time.sleep(1)  #To not exceed 15 requests per minute
         job_matches.sort(key=lambda x: x[2], reverse=True)
+        index = 0
         for title, url, percentage in job_matches:
-            print(f"Title: {title}, URL: {url}, Match Percentage: {percentage}%")
+            print(f" {index}. {title}, URL: {url}, Match Percentage: {percentage}%")
+            index += 1
     finally:
         db_session.close()
 
