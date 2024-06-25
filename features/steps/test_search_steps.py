@@ -7,14 +7,14 @@ from features.pages.search_page import SearchPage
 from features.pages.login_page import LoginPage
 import os
 
-
 from utils.models import JobInformation
 
 scenarios(os.path.join(os.path.dirname(__file__), '../search_job.feature'))
+
+
 @pytest.fixture(scope="function")
 def search_page(page):
     return SearchPage(page)
-
 
 
 @pytest.fixture(scope="function")
@@ -24,21 +24,17 @@ def job_information_page(page):
 
 @when('the user go to the LinkedIn jobs search page')
 def navigate_to_search_jobs(search_page):
-    
     search_page.go_to("https://www.linkedin.com/jobs/search/")
-
 
 
 @when(parsers.parse('the user searches for a job title "{job_title}" in "{location}"'))
 def search_for_job(search_page, job_title, location):
     search_page.search_jobs(job_title, location)
-    
+
+
 @when(parsers.parse('the user selects the filter "{mode}"'))
 def select_work_mode(search_page, mode):
     search_page.select_filter(mode)
-    #search_page.select_work_mode("Híbrido")
-    #search_page.select_work_mode("Presencial")
-
 
 
 @when('the user selects single application filter')
@@ -86,4 +82,3 @@ def get_information(job_information_page, search_page, db_session):
         else:
             exist_next_page = False
         count = count + 1
-
