@@ -34,12 +34,12 @@ class SearchPage:
         self.page.wait_for_selector('input[aria-label="Busca por cargo, aptitud o empresa"][role="combobox"]',
                                     timeout=6000)
         job_title_input = self.page.get_by_role("combobox", name="Busca por cargo, aptitud o")
-        job_title_input.click()
+        #job_title_input.click()
         job_title_input.fill(job_title)
         self.page.wait_for_selector('input[aria-label="Ciudad, provincia/estado o código postal"][role="combobox"]',
                                     timeout=6000)
         location_input = self.page.get_by_role("combobox", name="Ciudad, provincia/estado o có")
-        location_input.click()
+        #location_input.click()
         location_input.fill(location)
         self.page.get_by_role("button", name="Buscar").click(delay=1500)
         expect(self.page.locator('div.jobs-search-results-list')).to_be_visible()
