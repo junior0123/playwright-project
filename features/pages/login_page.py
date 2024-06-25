@@ -11,7 +11,6 @@ class LoginPage:
         self.page.goto("https://www.linkedin.com/login/es")
 
     def login(self, username: str, password: str):
-        self.page.pause()
         self.page.get_by_label("Email o teléfono").click()
         self.page.get_by_label("Email o teléfono").fill(username)
         self.page.get_by_label("Contraseña", exact=True).click()
