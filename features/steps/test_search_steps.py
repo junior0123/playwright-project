@@ -69,9 +69,18 @@ def get_information(job_information_page, search_page, db_session):
             content = job_information_page.get_job_content()
             restriction = job_information_page.location_restriction_is_present()
             url = f"https://www.linkedin.com/jobs/view/{job_id}"
-            post = JobInformation(job_id=job_id, title=title, url=url, restriction=restriction, compatible="unprocessed", description=content)
-            db_session.add(post)
-            db_session.commit()
+            existing_post = db_session.query(JobInformation).filter_by(url=url).first()
+            if existing_post is None:
+                post = JobInformation(
+                    job_id=job_id,
+                    title=title,
+                    url=url,
+                    restriction=restriction,
+                    state="unprocessed",
+                    description=content
+                )
+                db_session.add(post)
+                db_session.commit()
         if search_page.page_exists(count):
             search_page.click_on_next_page(count)
         else:
