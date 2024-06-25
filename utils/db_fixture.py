@@ -5,5 +5,4 @@ from utils.database import SessionLocal
 def db_session():
     session = SessionLocal()
     yield session
-    print("Cerrando sesion")
     session.close()
