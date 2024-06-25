@@ -1,4 +1,4 @@
-# features/pages/login_page.py
+
 from playwright.sync_api import Page, expect
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
@@ -26,7 +26,7 @@ class SearchPage:
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
-                console.log('Elemento no encontrado');
+                console.log('Element not found');
             }
         }''', selector)
 
@@ -71,10 +71,7 @@ class SearchPage:
     def apply_filters(self):
         self.page.wait_for_load_state('load')
         self.page.locator('button[data-test-reusables-filters-modal-show-results-button="true"]').wait_for(state='visible')
-        # self.page.wait_for_selector('button[aria-label="Aplicar los filtros actuales para mostrar resultados"]',
-        #                             timeout=5000)
         self.page.locator('button[data-test-reusables-filters-modal-show-results-button="true"]').click()
-        #self.page.get_by_label("Aplicar los filtros actuales").click(delay=1000)
         self.page.wait_for_selector('button[aria-label="Restablecer filtros aplicados"]', timeout=1200000)
         expect(self.page.get_by_label("Restablecer filtros aplicados")).to_be_visible()
         self.page.wait_for_load_state('load')
@@ -82,7 +79,6 @@ class SearchPage:
 
     def go_to(self, url):
         self.page.goto(url)
-        #expect(self.page.locator('ul.scaffold-layout__list-container')).to_be_visible()
 
     def get_links(self):
         self.scroll_to_bottom('div.jobs-search-results-list')
