@@ -9,19 +9,21 @@ class LoginPage:
 
     def navigate(self):
         self.page.goto("https://www.linkedin.com/login/es")
+        #self.page.pause()
 
     def login(self, username: str, password: str):
         self.page.get_by_label("Email o teléfono").click()
         self.page.get_by_label("Email o teléfono").fill(username)
         self.page.get_by_label("Contraseña", exact=True).click()
         self.page.get_by_label("Contraseña", exact=True).fill(password)
-        self.page.get_by_role("button", name="Inicia sesión").click()
+        self.page.get_by_label("Iniciar sesión", exact=True).click()
 
     def verification_login_successfully(self):
-        self.page.wait_for_selector('button.msg-overlay-bubble-header__control--new-convo-btn:last-child',
-                                    timeout=240000)
+
+        self.page.wait_for_selector('button.msg-overlay-bubble-header__control--new-convo-btn', timeout=240000)
         self.page.wait_for_load_state('load')
-        minimize_chat = self.page.locator('button.msg-overlay-bubble-header__control--new-convo-btn:last-child')
+        buttons = self.page.locator('button.msg-overlay-bubble-header__control--new-convo-btn')
+        minimize_chat = buttons.nth(-1)
         minimize_chat.click(delay=500)
 
     def log_out(self):
